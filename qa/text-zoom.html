@@ -1,0 +1,12 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><title>QA — текст 200%</title></head><body>
+<div id="root"></div><script type="module">
+import '/src/main.tsx';
+// Development-only fixture; not included in the production build.
+// Snapshot every computed font size before changing any, to avoid nested multiplication.
+requestAnimationFrame(() => requestAnimationFrame(() => {
+  const entries = [...document.querySelectorAll('#root *')].filter(e=>e.namespaceURI!=='http://www.w3.org/2000/svg').map(e=>[e,parseFloat(getComputedStyle(e).fontSize)]);
+  for (const [element,size] of entries) element.style.fontSize = `${size * 2}px`;
+  document.documentElement.dataset.textScale='200';
+}));
+</script></body></html>

@@ -1,0 +1,9 @@
+node_modules/
+dist/
+*.tsbuildinfo
+qa/*.png
+qa/github-upload.json
+*.zip
+portable-site/
+.env*
+!.env.example
