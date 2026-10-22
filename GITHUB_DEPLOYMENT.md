@@ -2,6 +2,8 @@
 
 Репозиторий: https://github.com/x102xx/energy-projects-prototype
 
+Сайт: https://x102xx.github.io/energy-projects-prototype/
+
 По прямому решению владельца используется публичный репозиторий и бесплатный GitHub Pages. Код, история изменений и готовый сайт общедоступны.
 
 Источник публикации: ветка `main`, папка `/docs`. HTTPS включён. Платный тариф не подключался.

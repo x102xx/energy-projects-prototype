@@ -12,11 +12,14 @@ const js = await readFile(asset(jsMatch[1]), 'utf8');
 const css = await readFile(asset(cssMatch[1]), 'utf8');
 if (/\bimport\.meta\b|\bimport\s*\(|\bexport\s*\{/.test(js)) throw new Error('Bundle is not standalone');
 
-html = html.replace(jsMatch[0], () => `<script>${js.replace(/<\/script/gi, '<\\/script')}</script>`);
+// The original module was deferred. A classic inline bundle must run after #root exists.
+html = html.replace(jsMatch[0], '');
+html = html.replace('</body>', () => `<script>${js.replace(/<\/script/gi, '<\\/script')}</script></body>`);
 html = html.replace(cssMatch[0], () => `<style>${css.replace(/<\/style/gi, '<\\/style')}</style>`);
 html = html.replace('<meta charset="UTF-8" />', `<meta charset="UTF-8" />
     <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src data:; connect-src 'none'; form-action 'none'; base-uri 'none'" />`);
 if (/<(?:script|link|img)\b[^>]*(?:src|href)="(?:\/|https?:)/i.test(html)) throw new Error('External asset remains');
+if (html.indexOf('<div id="root"') > html.indexOf('<script>')) throw new Error('Bundle executes before the root container');
 await mkdir(output, { recursive: true });
 await writeFile(path.join(output, 'index.html'), html, 'utf8');
 await writeFile(path.join(output, 'КАК ОТКРЫТЬ.txt'), '\ufeff' + [
